@@ -1,8 +1,10 @@
-package com.pecpacker.countrydetailsapp;
+package com.pecpacker.countrydetailsapp.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.pecpacker.countrydetailsapp.R;
 
 public class MainActivity extends AppCompatActivity {
 
