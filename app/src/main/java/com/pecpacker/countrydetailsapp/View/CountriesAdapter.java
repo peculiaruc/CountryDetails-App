@@ -1,7 +1,6 @@
 package com.pecpacker.countrydetailsapp.View;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,29 +13,34 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.RequestManager;
 import com.pecpacker.countrydetailsapp.Model.CountryModel;
 import com.pecpacker.countrydetailsapp.R;
+
+import java.util.List;
 
 public class CountriesAdapter extends RecyclerView.Adapter<CountriesAdapter.ViewHolder> {
 
     private static final String TAG = "CountriesAdapter";
 
-    private CountryModel mCountryName, mCapitalcitie;
+    private List<CountryModel> arrayList;
     private Context mContext;
 
-    public CountriesAdapter(CountryModel mCountryName, CountryModel mCapitalcitie, Context mContext) {
-        this.mCountryName = mCountryName;
-        this.mCapitalcitie = mCapitalcitie;
+    public CountriesAdapter(List<CountryModel> arrayList, Context mContext) {
+        this.arrayList = arrayList;
         this.mContext = mContext;
+    }
+
+
+    public CountriesAdapter(CountryModel mNamel, MainActivity mainActivity) {
+
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.country_item_row, parent, false);
-        RecyclerView.ViewHolder holder = new ViewHolder(view);
-        return (ViewHolder) holder;
+        return new ViewHolder(view);
     }
 
     @Override
@@ -46,12 +50,12 @@ public class CountriesAdapter extends RecyclerView.Adapter<CountriesAdapter.View
 
         Glide.with(mContext)
                 .asBitmap()
-                .load(mCountryName.getName())
-                .load(mCapitalcitie.getCapital())
+                .load(arrayList.get(position).getName())
+                .load(arrayList.get(position).getCapital())
                 .into(holder.imageflag);
 
-        holder.countryname.setText(mCountryName.getName().charAt(position));
-        holder.countrycapital.setText(mCapitalcitie.getCapital().charAt(position));
+        holder.countryname.setText(arrayList.get(position).getName());
+        holder.countrycapital.setText(arrayList.get(position).getCapital());
 
         holder.parentlayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,12 +72,15 @@ public class CountriesAdapter extends RecyclerView.Adapter<CountriesAdapter.View
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
+        public final View mView;
+
         ImageView imageflag;
         TextView countryname, countrycapital;
         ConstraintLayout parentlayout;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            this.mView = itemView;
 
             imageflag = itemView.findViewById(R.id.img_flag);
             countryname = itemView.findViewById(R.id.country_name);
