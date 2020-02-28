@@ -16,13 +16,15 @@ import com.bumptech.glide.Glide;
 import com.pecpacker.countrydetailsapp.Model.CountryModel;
 import com.pecpacker.countrydetailsapp.R;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CountriesAdapter extends RecyclerView.Adapter<CountriesAdapter.ViewHolder> {
 
     private static final String TAG = "CountriesAdapter";
 
-    private List<CountryModel> arrayList;
+    private List<CountryModel> arrayList = new ArrayList<>();
     private Context mContext;
 
     public CountriesAdapter(List<CountryModel> arrayList, Context mContext) {
@@ -31,7 +33,8 @@ public class CountriesAdapter extends RecyclerView.Adapter<CountriesAdapter.View
     }
 
 
-    public CountriesAdapter(CountryModel mNamel, MainActivity mainActivity) {
+    public CountriesAdapter() {
+
 
     }
 
@@ -48,11 +51,6 @@ public class CountriesAdapter extends RecyclerView.Adapter<CountriesAdapter.View
 
         Log.d(TAG, "onBindViewHolder Called");
 
-        Glide.with(mContext)
-                .asBitmap()
-                .load(arrayList.get(position).getName())
-                .load(arrayList.get(position).getCapital())
-                .into(holder.imageflag);
 
         holder.countryname.setText(arrayList.get(position).getName());
         holder.countrycapital.setText(arrayList.get(position).getCapital());
@@ -67,7 +65,7 @@ public class CountriesAdapter extends RecyclerView.Adapter<CountriesAdapter.View
 
     @Override
     public int getItemCount() {
-        return 0;
+        return arrayList.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

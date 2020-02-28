@@ -14,6 +14,9 @@ import com.pecpacker.countrydetailsapp.R;
 import com.pecpacker.countrydetailsapp.RetrofitAPI.CountriesApi;
 import com.pecpacker.countrydetailsapp.RetrofitAPI.CountriesService;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -22,8 +25,8 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "CountriesAdapter";
     private CountriesAdapter adapter;
-    ProgressDialog progressDoalog;
     private RecyclerView recyclerView;
+    private List<CountryModel> arrayList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,38 +34,31 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Log.d(TAG, "onCreate: started");
 
-        progressDoalog = new ProgressDialog(MainActivity.this);
-        progressDoalog.setMessage("Loading.....");
-        progressDoalog.show();
+        recyclerView = findViewById(R.id.recycler_view);
+        LinearLayoutManager manager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(manager);
 
         CountriesApi service = CountriesService.getRetrofitInstance().create(CountriesApi.class);
-        Call<CountryModel> call = service.getALLNames();
-        call.enqueue(new Callback<CountryModel>() {
+        Call<List<CountryModel>> call = service.getALLNames();
+        call.enqueue(new Callback<List<CountryModel>>() {
             @Override
-            public void onResponse(Call<CountryModel> call, Response<CountryModel> response) {
-                progressDoalog.dismiss();
-                countryRecyclerView(response.body());
-                Log.d(TAG, "onResponse: " + response.body());
+            public void onResponse(Call<List<CountryModel>> call, Response<List<CountryModel>> response) {
+                Log.d("countries", "onResponse: " + response.body());
+                arrayList = response.body();
+                adapter = new CountriesAdapter(arrayList, MainActivity.this);
+                //countryRecyclerView(response.body());
+                recyclerView.setAdapter(adapter);
+
 
             }
 
             @Override
-            public void onFailure(Call<CountryModel> call, Throwable t) {
-                progressDoalog.dismiss();
+            public void onFailure(Call<List<CountryModel>> call, Throwable t) {
                 Toast.makeText(MainActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
 
-
     }
 
-    private void countryRecyclerView(CountryModel mNamel) {
-        Log.d(TAG, "countryRecyclerView: country recyclerView.");
-        RecyclerView recyclerView = findViewById(R.id.recycler_view);
-        CountriesAdapter adapter = new CountriesAdapter(mNamel, this);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(adapter);
-
-    }
 }
 

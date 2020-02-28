@@ -9,7 +9,7 @@ import retrofit2.http.GET;
 
 public interface CountriesApi {
 
-    @GET("/rest/v2/all/")
-    Call<CountryModel> getALLNames();
+    @GET("rest/v2/all/")
+    Call<List<CountryModel>> getALLNames();
 
 }
