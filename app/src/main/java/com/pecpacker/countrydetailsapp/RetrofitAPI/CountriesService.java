@@ -5,7 +5,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class CountriesService {
 
-    public static final String BASE_URL = "https://restcountries.eu/rest/v2/all";
+    public static final String BASE_URL = "https://restcountries.eu";
     public static Retrofit retrofit;
 
     public static Retrofit getRetrofitInstance() {
