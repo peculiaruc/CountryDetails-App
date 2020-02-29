@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -38,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
         LinearLayoutManager manager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(manager);
 
+
         CountriesApi service = CountriesService.getRetrofitInstance().create(CountriesApi.class);
         Call<List<CountryModel>> call = service.getALLNames();
         call.enqueue(new Callback<List<CountryModel>>() {
@@ -48,8 +48,6 @@ public class MainActivity extends AppCompatActivity {
                 adapter = new CountriesAdapter(arrayList, MainActivity.this);
                 //countryRecyclerView(response.body());
                 recyclerView.setAdapter(adapter);
-
-
             }
 
             @Override
@@ -59,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+
 
 }
 
